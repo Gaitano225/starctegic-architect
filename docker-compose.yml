@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: strategic_architect_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=strategic_architect
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    container_name: strategic_architect_redis
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: ./backend
+    container_name: strategic_architect_backend
+    volumes:
+      - ./backend:/code
+    environment:
+      - POSTGRES_SERVER=db
+      - REDIS_HOST=redis
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:

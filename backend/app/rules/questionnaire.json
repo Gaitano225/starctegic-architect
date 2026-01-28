@@ -1,0 +1,432 @@
+{
+    "questions": [
+        {
+            "id": "q1",
+            "text": "Dans quel pays se situe votre projet principal ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Bénin",
+                    "value": "BJ"
+                },
+                {
+                    "label": "Sénégal",
+                    "value": "SN"
+                },
+                {
+                    "label": "Côte d'Ivoire",
+                    "value": "CI"
+                },
+                {
+                    "label": "Cameroun",
+                    "value": "CM"
+                },
+                {
+                    "label": "France",
+                    "value": "FR"
+                },
+                {
+                    "label": "Autre",
+                    "value": "OTHER"
+                }
+            ],
+            "context_key": "target_country",
+            "required": true
+        },
+        {
+            "id": "q2",
+            "text": "Quel est le secteur d'activité de votre projet ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "E-commerce",
+                    "value": "ecommerce"
+                },
+                {
+                    "label": "Fintech",
+                    "value": "fintech"
+                },
+                {
+                    "label": "Santé / EdTech",
+                    "value": "health"
+                },
+                {
+                    "label": "Agriculture / AgriTech",
+                    "value": "agritech"
+                },
+                {
+                    "label": "Services B2B",
+                    "value": "b2b"
+                },
+                {
+                    "label": "Autre",
+                    "value": "other"
+                }
+            ],
+            "context_key": "sector",
+            "required": true
+        },
+        {
+            "id": "q3",
+            "text": "Quelle est la taille de votre équipe technique actuelle ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Seul (fondateur unique)",
+                    "value": 1
+                },
+                {
+                    "label": "2 à 5 personnes",
+                    "value": 3
+                },
+                {
+                    "label": "Plus de 5 personnes",
+                    "value": 6
+                }
+            ],
+            "context_key": "team_size",
+            "required": true
+        },
+        {
+            "id": "q4",
+            "text": "Sous combien de mois souhaitez-vous lancer le produit (MVP) ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Moins de 3 mois",
+                    "value": 3
+                },
+                {
+                    "label": "3 à 6 mois",
+                    "value": 6
+                },
+                {
+                    "label": "Plus de 6 mois",
+                    "value": 12
+                }
+            ],
+            "context_key": "time_to_market",
+            "required": true
+        },
+        {
+            "id": "q5",
+            "text": "Votre application gère-t-elle des données personnelles (noms, emails, etc.) ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Oui",
+                    "value": true
+                },
+                {
+                    "label": "Non",
+                    "value": false
+                }
+            ],
+            "context_key": "handles_personal_data",
+            "required": true
+        },
+        {
+            "id": "q6",
+            "text": "Quel est votre budget estimé pour le développement initial (MVP) ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Moins de 2M FCFA",
+                    "value": "low"
+                },
+                {
+                    "label": "2M à 10M FCFA",
+                    "value": "medium"
+                },
+                {
+                    "label": "Plus de 10M FCFA",
+                    "value": "high"
+                }
+            ],
+            "context_key": "budget",
+            "required": true
+        },
+        {
+            "id": "q7",
+            "text": "Quelle est votre cible géographique principale ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Locale (une ville/un pays)",
+                    "value": "local"
+                },
+                {
+                    "label": "Régionale (Afrique de l'Ouest/Centrale)",
+                    "value": "regional"
+                },
+                {
+                    "label": "Internationale",
+                    "value": "international"
+                }
+            ],
+            "context_key": "target_reach",
+            "required": true
+        },
+        {
+            "id": "q8",
+            "text": "L'application doit-elle fonctionner hors-ligne (offline) ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Oui, c'est critique",
+                    "value": true
+                },
+                {
+                    "label": "Non, une connexion stable est attendue",
+                    "value": false
+                }
+            ],
+            "context_key": "needs_offline",
+            "required": true
+        },
+        {
+            "id": "q9",
+            "text": "Prévoyez-vous un fort trafic dès le lancement (> 10 000 utilisateurs) ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Oui",
+                    "value": true
+                },
+                {
+                    "label": "Non",
+                    "value": false
+                }
+            ],
+            "context_key": "high_traffic_expected",
+            "required": true
+        },
+        {
+            "id": "q10",
+            "text": "Quel est le niveau de compétence technique des fondateurs ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Non technique",
+                    "value": "none"
+                },
+                {
+                    "label": "Intermédiaire",
+                    "value": "mid"
+                },
+                {
+                    "label": "Technique (pro)",
+                    "value": "high"
+                }
+            ],
+            "context_key": "founder_tech_level",
+            "required": true
+        },
+        {
+            "id": "q11",
+            "text": "Avez-vous déjà choisi une technologie spécifique ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Aucun choix fait",
+                    "value": "none"
+                },
+                {
+                    "label": "JavaScript / TypeScript",
+                    "value": "javascript"
+                },
+                {
+                    "label": "Python",
+                    "value": "python"
+                },
+                {
+                    "label": "PHP",
+                    "value": "php"
+                },
+                {
+                    "label": "No-Code (Bubble, Webflow)",
+                    "value": "nocode"
+                }
+            ],
+            "context_key": "prechosen_tech",
+            "required": false
+        },
+        {
+            "id": "q12",
+            "text": "Quelle est la priorité absolue pour votre MVP ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Vitesse de lancement (Time-to-Market)",
+                    "value": "speed"
+                },
+                {
+                    "label": "Coût de maintenance minimal",
+                    "value": "cost"
+                },
+                {
+                    "label": "Scalabilité et performance",
+                    "value": "quality"
+                }
+            ],
+            "context_key": "priority",
+            "required": true
+        },
+        {
+            "id": "q13",
+            "text": "L'application nécessite-t-elle des paiements en ligne ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Oui",
+                    "value": true
+                },
+                {
+                    "label": "Non",
+                    "value": false
+                }
+            ],
+            "context_key": "needs_online_payment",
+            "required": true
+        },
+        {
+            "id": "q14",
+            "text": "Votre service nécessite-t-il une application mobile native (App Store/Play Store) ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Oui, c'est indispensable",
+                    "value": true
+                },
+                {
+                    "label": "Non, une web app suffit",
+                    "value": false
+                }
+            ],
+            "context_key": "needs_mobile_app",
+            "required": true
+        },
+        {
+            "id": "q15",
+            "text": "Allez-vous intégrer des services tiers (Google Maps, Twilio, etc.) ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Oui, beaucoup",
+                    "value": "heavy"
+                },
+                {
+                    "label": "Quelques-uns",
+                    "value": "some"
+                },
+                {
+                    "label": "Non",
+                    "value": "none"
+                }
+            ],
+            "context_key": "third_party_integrations",
+            "required": true
+        },
+        {
+            "id": "q16",
+            "text": "Comment prévoyez-vous l'hébergement de vos données ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Cloud Public (AWS, Azure, Google Cloud)",
+                    "value": "public_cloud"
+                },
+                {
+                    "label": "Serveur Dédié / VPS (DigitalOcean, OVH)",
+                    "value": "vps"
+                },
+                {
+                    "label": "Hébergement local (dans votre pays)",
+                    "value": "onprem"
+                }
+            ],
+            "context_key": "hosting_preference",
+            "required": true
+        },
+        {
+            "id": "q17",
+            "text": "Quel est le volume de données à traiter par jour (estimé) ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Faible (< 1 Go)",
+                    "value": "low"
+                },
+                {
+                    "label": "Moyen (1 - 10 Go)",
+                    "value": "medium"
+                },
+                {
+                    "label": "Élevé (> 10 Go)",
+                    "value": "high"
+                }
+            ],
+            "context_key": "data_volume",
+            "required": true
+        },
+        {
+            "id": "q18",
+            "text": "Le projet est-il destiné à un usage interne (B2B) ou grand public (B2C) ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Interne / B2B",
+                    "value": "b2b"
+                },
+                {
+                    "label": "Grand Public / B2C",
+                    "value": "b2c"
+                }
+            ],
+            "context_key": "business_model",
+            "required": true
+        },
+        {
+            "id": "q19",
+            "text": "Souhaitez-vous une interface d'administration pour gérer vos contenus ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Oui, absolument",
+                    "value": true
+                },
+                {
+                    "label": "Non, pas pour le MVP",
+                    "value": false
+                }
+            ],
+            "context_key": "needs_admin_panel",
+            "required": true
+        },
+        {
+            "id": "q20",
+            "text": "Quel est l'aspect le plus complexe de votre projet selon vous ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "La logique métier (algorithmes)",
+                    "value": "logic"
+                },
+                {
+                    "label": "L'interface utilisateur (Design)",
+                    "value": "design"
+                },
+                {
+                    "label": "La sécurité et les paiements",
+                    "value": "security"
+                },
+                {
+                    "label": "Le temps réel / Notifications",
+                    "value": "realtime"
+                }
+            ],
+            "context_key": "complexity_focus",
+            "required": true
+        }
+    ]
+}

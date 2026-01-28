@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+build/
+dist/
+*.bak
+
+# Node
+node_modules/
+.next/
+out/
+build/
+.DS_Store
+
+# Databases
+*.sqlite3
+migrations/
+
+# IDEs
+.vscode/
+.idea/
+.gemini/

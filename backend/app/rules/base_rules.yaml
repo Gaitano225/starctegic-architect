@@ -1,0 +1,267 @@
+rules:
+  # ==========================================
+  # GEO & PAYMENTS (BENIN, SÉNÉGAL, AFRIQUE)
+  # ==========================================
+  - id: "GEO-001"
+    condition: "target_country == 'BJ'"
+    recommendation: "Prioriser les paiements mobile money via Kkapay ou Fedapay et optimiser pour une connexion 3G (low bandwidth)."
+    justification: "Au Bénin, Kkapay et Fedapay sont les solutions les plus robustes pour le Mobile Money local."
+
+  - id: "GEO-002"
+    condition: "target_country == 'SN'"
+    recommendation: "Intégrer Orange Money et Wave via une passerelle comme Fedapay ou Hub2."
+    justification: "Le marché sénégalais est dominé par Wave et Orange Money; Fedapay offre une bonne abstraction."
+
+  - id: "PAY-001"
+    condition: "needs_online_payment == True and target_reach == 'regional'"
+    recommendation: "Utiliser Fedapay pour une couverture multidevises (XOF, XAF) et multi-opérateurs."
+    justification: "Fedapay offre une excellente intégration pour l'Afrique de l'Ouest et Centrale avec des SDKs modernes."
+
+  - id: "PAY-002"
+    condition: "target_country == 'CI'"
+    recommendation: "Intégrer MTN Mobile Money et Orange Money via Fedapay."
+    justification: "La Côte d'Ivoire possède un fort taux de pénétration du mobile money sur ces deux opérateurs."
+
+  - id: "PAY-003"
+    condition: "target_reach == 'international' and needs_online_payment == True"
+    recommendation: "Intégrer Stripe ou PayPal pour les paiements hors Afrique."
+    justification: "Stripe est le standard mondial pour les paiements par carte bancaire internationale."
+
+  # ==========================================
+  # ARCHITECTURE & TEAM SIZE
+  # ==========================================
+  - id: "ARCH-001"
+    condition: "team_size < 3 and time_to_market <= 6"
+    recommendation: "Opter pour un monolithe modulaire (FastAPI ou Laravel) au lieu de microservices."
+    justification: "Une petite équipe ne devrait pas supporter l'overhead opérationnel des microservices avant d'avoir validé le marché."
+
+  - id: "ARCH-002"
+    condition: "needs_offline == True"
+    recommendation: "Architecture Offline-First utilisant PWA avec Service Workers et IndexedDB."
+    justification: "L'usage des données locales permet une expérience fluide malgré les coupures réseau fréquentes."
+
+  - id: "ARCH-003"
+    condition: "high_traffic_expected == True"
+    recommendation: "Implémenter une couche de cache agressive avec Redis et utiliser un Load Balancer (NGINX)."
+    justification: "Préparer la scalabilité horizontale dès le départ pour absorber les pics de charge."
+
+  - id: "ARCH-004"
+    condition: "team_size >= 6"
+    recommendation: "Mettre en place une architecture basée sur des services spécialisés (API Gateway + Microservices légers)."
+    justification: "Une équipe plus large peut paralléliser le travail sur des domaines métiers distincts."
+
+  - id: "ARCH-005"
+    condition: "priority == 'speed' and team_size < 3"
+    recommendation: "Utiliser des outils Serverless (AWS Lambda, Vercel Functions) pour minimiser la gestion d'infrastructure."
+    justification: "Le Serverless réduit le temps passé sur l'Ops pour se concentrer sur le produit."
+
+  # ==========================================
+  # TECH STACK SELECTION
+  # ==========================================
+  - id: "TECH-001"
+    condition: "founder_tech_level == 'none' and budget == 'low'"
+    recommendation: "Considérer une approche No-Code (Bubble ou FlutterFlow) pour valider le concept."
+    justification: "Le No-Code permet de lancer un MVP fonctionnel sans dépendre d'un développeur coûteux en phase d'idéation."
+
+  - id: "TECH-002"
+    condition: "priority == 'speed' and prechosen_tech == 'none'"
+    recommendation: "Utiliser Next.js + Tailwind CSS pour le frontend et Supabase ou Firebase pour le backend."
+    justification: "Les solutions Backend-as-a-Service (BaaS) accélèrent considérablement le développement des fonctionnalités courantes."
+
+  - id: "TECH-003"
+    condition: "prechosen_tech == 'python'"
+    recommendation: "Utiliser FastAPI pour les API et SQLAlchemy pour la gestion de la base de données."
+    justification: "FastAPI est moderne, performant et dispose d'une excellente documentation."
+
+  - id: "TECH-004"
+    condition: "prechosen_tech == 'javascript' and needs_mobile_app == True"
+    recommendation: "Utiliser React Native (Expo) pour le développement mobile."
+    justification: "Expo permet un développement et un déploiement rapide pour iOS et Android avec JS/TS."
+
+  - id: "TECH-005"
+    condition: "prechosen_tech == 'php'"
+    recommendation: "Utiliser le framework Laravel (TALL stack : Tailwind, Alpine, Laravel, Livewire)."
+    justification: "Laravel est extrêmement productif et possède un écosystème très riche pour le SaaS."
+
+  # ==========================================
+  # SECURITY & COMPLIANCE
+  # ==========================================
+  - id: "SEC-001"
+    condition: "handles_personal_data == True"
+    recommendation: "Mettre en œuvre un cryptage AES-256 au repos et assurer la conformité avec la loi locale (ex: APDP au Bénin)."
+    justification: "La protection des données personnelles est une obligation légale stricte dans de nombreux pays africains."
+
+  - id: "SEC-002"
+    condition: "target_reach == 'international' and handles_personal_data == True"
+    recommendation: "Se conformer au RGPD (GDPR) pour les utilisateurs européens."
+    justification: "Le non-respect du RGPD peut entraîner des amendes allant jusqu'à 4% du chiffre d'affaires mondial."
+
+  - id: "SEC-003"
+    condition: "needs_online_payment == True"
+    recommendation: "Assurer la conformité PCI-DSS (via le prestataire de paiement choisi)."
+    justification: "La sécurité des transactions financières est cruciale pour la confiance des utilisateurs."
+
+  - id: "SEC-004"
+    condition: "complexity_focus == 'security'"
+    recommendation: "Mettre en place une authentification à deux facteurs (2FA) via SMS ou Authenticator."
+    justification: "Renforce considérablement la sécurité des comptes utilisateurs sensibles."
+
+  - id: "SEC-005"
+    condition: "business_model == 'b2b'"
+    recommendation: "Implémenter le RBAC (Role-Based Access Control) pour une gestion fine des permissions."
+    justification: "Les clients entreprises exigent souvent une séparation stricte des droits d'accès."
+
+  # ==========================================
+  # INFRASTRUCTURE & DEPLOYMENT
+  # ==========================================
+  - id: "HOST-001"
+    condition: "hosting_preference == 'vps'"
+    recommendation: "Utiliser un VPS Ubuntu (DigitalOcean ou OVH) avec Docker Compose."
+    justification: "Offre un bon équilibre entre contrôle, coût et facilité de déploiement pour un MVP."
+
+  - id: "HOST-002"
+    condition: "hosting_preference == 'public_cloud' and high_traffic_expected == True"
+    recommendation: "Déployer sur AWS (Elastic Beanstalk) ou Google Cloud (Cloud Run)."
+    justification: "Permet une scalabilité automatique pour gérer les fluctuations de trafic."
+
+  - id: "HOST-003"
+    condition: "target_reach == 'local' and target_country == 'BJ'"
+    recommendation: "Considérer un hébergement local (SBIN ou hébergeurs locaux) si la souveraineté des données est critique."
+    justification: "Certains secteurs (santé, finance publique) peuvent exiger le stockage local au Bénin."
+
+  - id: "HOST-004"
+    condition: "priority == 'cost'"
+    recommendation: "Utiliser des instances 'Spot' ou des serveurs à bas coût (Hetzner, OVH VPS Starter)."
+    justification: "Permet de réduire les coûts opérationnels au maximum pendant la phase de démarrage."
+
+  - id: "HOST-005"
+    condition: "needs_mobile_app == True"
+    recommendation: "Mettre en place une CI/CD (GitHub Actions) pour les builds Android/iOS (Fastlane)."
+    justification: "Automatise le processus complexe de signature et de soumission aux stores."
+
+  # ==========================================
+  # BUSINESS & PRODUCT
+  # ==========================================
+  - id: "BIZ-001"
+    condition: "business_model == 'b2b'"
+    recommendation: "Focus sur la sécurité des API (OAuth2) et la journalisation des activités (Logs) pour l'audit."
+    justification: "La traçabilité est un argument de vente majeur pour les clients B2B professionnels."
+
+  - id: "BIZ-002"
+    condition: "business_model == 'b2c' and high_traffic_expected == True"
+    recommendation: "Implémenter des outils d'analytics (PostHog ou Mixpanel) dès le départ."
+    justification: "Comprendre le comportement des utilisateurs est vital pour améliorer la rétention en B2C."
+
+  - id: "BIZ-003"
+    condition: "priority == 'speed'"
+    recommendation: "Utiliser un template UI premium (Tailwind Labs ou UI8) au lieu de designer de zéro."
+    justification: "Fait gagner des semaines de travail sur l'interface tout en garantissant un look pro."
+
+  - id: "BIZ-004"
+    condition: "budget == 'high'"
+    recommendation: "Recruter un expert en QA (Quality Assurance) pour des tests de non-régression manuels et auto."
+    justification: "Avec du budget, la qualité doit être une priorité pour éviter les bugs critiques au lancement."
+
+  - id: "BIZ-005"
+    condition: "sector == 'fintech'"
+    recommendation: "Prévoir une architecture multi-ledger pour la traçabilité comptable."
+    justification: "Essentiel pour la réconciliation des comptes et les audits réglementaires."
+
+  # ==========================================
+  # COMPLEXITY & FEATURES
+  # ==========================================
+  - id: "CX-001"
+    condition: "complexity_focus == 'realtime'"
+    recommendation: "Utiliser WebSockets ou Server-Sent Events (SSE) via FastAPI Broadcaster."
+    justification: "Le temps réel nécessite une infrastructure de communication bidirectionnelle efficace."
+
+  - id: "CX-002"
+    condition: "needs_admin_panel == True"
+    recommendation: "Générer l'admin automatiquement (Django Admin, Laravel Nova ou React Admin)."
+    justification: "Ne pas coder l'admin à la main fait gagner 30% du temps de développement."
+
+  - id: "CX-003"
+    condition: "third_party_integrations == 'heavy'"
+    recommendation: "Utiliser un pattern 'Adapter' ou 'Gateway' pour isoler les dépendances externes."
+    justification: "Facilite le changement de fournisseur tiers sans impacter la logique métier."
+
+  - id: "CX-004"
+    condition: "data_volume == 'high'"
+    recommendation: "Utiliser une base de données NoSQL (MongoDB) ou le Partitioning PostgreSQL."
+    justification: "Prépare le système à traiter des millions d'entrées sans ralentissement."
+
+  - id: "CX-005"
+    condition: "needs_mobile_app == True and needs_offline == True"
+    recommendation: "Utiliser SQLite ou Realm (MongoDB) sur le mobile pour le stockage local synchrone."
+    justification: "Garantit que l'app fonctionne parfaitement sans réseau et se synchronise plus tard."
+
+  # ==========================================
+  # BUDGET & RESOURCES
+  # ==========================================
+  - id: "BUD-001"
+    condition: "budget == 'medium' and priority == 'quality'"
+    recommendation: "Investir dans une suite de tests automatisés (Unitaires et E2E) dès le départ."
+    justification: "Une base de code saine réduit la dette technique et facilite l'évolution du produit."
+
+  - id: "BUD-002"
+    condition: "budget == 'low' and team_size == 1"
+    recommendation: "Focus uniquement sur une fonctionnalité 'Killer Feature' (MVP strict)."
+    justification: "Ressources limitées imposent une concentration extrême sur la valeur ajoutée."
+
+  - id: "BUD-003"
+    condition: "budget == 'high' and sector == 'ecommerce'"
+    recommendation: "Utiliser une solution Headless Commerce (Strapi + Shopify ou MedusaJS)."
+    justification: "Offre une flexibilité totale sur le front-end tout en utilisant un moteur e-commerce robuste."
+
+  # ==========================================
+  # ADDITIONAL EXPERT RULES (SPECIFIC)
+  # ==========================================
+  - id: "EXP-001"
+    condition: "sector == 'health' and handles_personal_data == True"
+    recommendation: "Utiliser des serveurs certifiés HDS (Hébergement de Données de Santé) ou équivalent local."
+    justification: "Les données de santé sont les plus sensibles et nécessitent une certification spécifique."
+
+  - id: "EXP-002"
+    condition: "target_reach == 'regional' and target_country in ['BJ', 'SN', 'CI']"
+    recommendation: "Optimiser les images et utiliser un format WebP avec compression forte."
+    justification: "Le coût de la data mobile reste élevé pour les utilisateurs finaux dans ces régions."
+
+  - id: "EXP-003"
+    condition: "needs_online_payment == True and priority == 'speed'"
+    recommendation: "Intégrer le widget pré-construit de Fedapay pour éviter de coder les formulaires de CB."
+    justification: "Réduit les erreurs de sécurité et accélère la mise en production."
+
+  - id: "EXP-004"
+    condition: "sector == 'agritech' and target_reach == 'local'"
+    recommendation: "Prévoir une interface USSD en plus de l'application web/mobile."
+    justification: "Les agriculteurs n'ont pas toujours de smartphone ou de connexion internet stable."
+
+  - id: "EXP-005"
+    condition: "high_traffic_expected == True and data_volume == 'high'"
+    recommendation: "Mettre en place un pipeline ELK (Elasticsearch, Logstash, Kibana) pour le monitoring."
+    justification: "Essentiel pour debugger des systèmes complexes sous haute charge."
+
+  - id: "EXP-006"
+    condition: "founder_tech_level == 'high' and priority == 'quality'"
+    recommendation: "Adopter le Domain-Driven Design (DDD) pour structurer le code complexe."
+    justification: "Aide à maintenir une cohérence entre le code et les processus métiers de l'entreprise."
+
+  - id: "EXP-007"
+    condition: "target_country == 'BJ' and sector == 'fintech'"
+    recommendation: "Se rapprocher de la BCEAO pour les agréments d'Intermédiaire en Opérations de Banque (IOB)."
+    justification: "La réglementation fintech en zone UEMOA est stricte et nécessite une veille constante."
+
+  - id: "EXP-008"
+    condition: "needs_mobile_app == False and priority == 'speed'"
+    recommendation: "Prioriser une architecture SSR (Server-Side Rendering) avec Next.js."
+    justification: "Meilleur SEO et temps de chargement initial plus rapide pour le web."
+
+  - id: "EXP-009"
+    condition: "priority == 'cost' and hosting_preference == 'vps'"
+    recommendation: "Utiliser SQLite pour la base de données si le trafic est faible (< 10 requêtes/sec)."
+    justification: "SQLite ne nécessite pas de processus séparé, simplifiant considérablement l'infra pour un coût nul."
+
+  - id: "EXP-010"
+    condition: "target_region == 'Europe'"
+    recommendation: "Vérifier la conformité avec la directive DSP2 pour les services de paiement."
+    justification: "Réglementation européenne obligatoire pour la sécurité des paiements en ligne."
