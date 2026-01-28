@@ -3,6 +3,10 @@ from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from app.db.base_class import Base
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from app.models.user import User  # noqa: F401
+
 class Project(Base):
     __tablename__ = "projects"
 
@@ -15,6 +19,9 @@ class Project(Base):
     
     # Store recommendations as a JSON list of rule objects
     recommendations = Column(JSON, default=[])
+
+    # Store IDs of rules that were triggered for audit trail
+    applied_rule_ids = Column(JSON, default=[])
     
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     owner = relationship("User", back_populates="projects")

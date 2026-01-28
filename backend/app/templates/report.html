@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Business Case Technique - {{ project_name }}</title>
@@ -7,12 +8,14 @@
         @page {
             size: A4;
             margin: 2cm;
+
             @bottom-right {
                 content: "Page " counter(page) " sur " counter(pages);
                 font-size: 10pt;
                 color: #666;
             }
         }
+
         body {
             font-family: 'Helvetica', 'Arial', sans-serif;
             line-height: 1.6;
@@ -20,6 +23,7 @@
             margin: 0;
             padding: 0;
         }
+
         .cover {
             text-align: center;
             height: 100%;
@@ -28,43 +32,54 @@
             justify-content: center;
             page-break-after: always;
         }
+
         .cover h1 {
             font-size: 32pt;
             color: #1a365d;
             margin-bottom: 0.5cm;
         }
+
         .cover h2 {
             font-size: 18pt;
             color: #4a5568;
             margin-bottom: 2cm;
         }
+
         .cover .meta {
             font-size: 12pt;
             color: #718096;
         }
-        h1, h2, h3 {
+
+        h1,
+        h2,
+        h3 {
             color: #2c5282;
         }
+
         .section {
             margin-bottom: 1.5cm;
             page-break-inside: avoid;
         }
+
         .recommendation {
             background: #f7fafc;
             border-left: 4px solid #3182ce;
             padding: 1rem;
             margin-bottom: 1rem;
         }
+
         .recommendation h4 {
             margin-top: 0;
             color: #2b6cb0;
         }
+
         .justification {
             font-style: italic;
             color: #4a5568;
             font-size: 10pt;
             margin-top: 0.5rem;
         }
+
         .footer {
             margin-top: 3cm;
             border-top: 1px solid #e2e8f0;
@@ -75,6 +90,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="cover">
         <div style="margin-top: 5cm;">
@@ -89,31 +105,104 @@
     </div>
 
     <div class="section">
-        <h1>1. Synthèse Exécutive</h1>
-        <p>Ce rapport présente l'analyse stratégique et les recommandations techniques pour le projet <strong>{{ project_name }}</strong>. Nos algorithmes ont analysé vos réponses au questionnaire pour identifier les meilleures pratiques adaptées à votre contexte spécifique.</p>
+        <h1>1. Diagnostic Stratégique & Problématique</h1>
+        <div style="background: #fff5f5; border-left: 4px solid #e53e3e; padding: 1.5rem; margin-bottom: 1rem;">
+            <h3 style="margin-top: 0; color: #c53030;">Le Problème</h3>
+            <p>{{ problem }}</p>
+        </div>
+        <div style="background: #f0fff4; border-left: 4px solid #38a169; padding: 1.5rem;">
+            <h3 style="margin-top: 0; color: #2f855a;">La Demande de Marché</h3>
+            <p>{{ demand }}</p>
+        </div>
     </div>
 
     <div class="section">
-        <h1>2. Architecture Recommandée</h1>
-        <p>Sur la base de votre taille d'équipe, de votre budget et de vos objectifs de mise en marché, voici les choix technologiques prioritaires :</p>
-        
+        <h1>2. Vision de la Solution & Valeur Ajoutée</h1>
+        <p><strong>Description de la Solution :</strong> {{ solution }}</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1cm;">
+            <tr style="background: #2c5282; color: white;">
+                <th style="padding: 10px; border: 1px solid #e2e8f0; width: 50%;">Étude de l'existant (Concurrents)</th>
+                <th style="padding: 10px; border: 1px solid #e2e8f0; width: 50%;">Votre Différenciateur (UVP)</th>
+            </tr>
+            <tr>
+                <td style="padding: 15px; border: 1px solid #e2e8f0; vertical-align: top; background: #edf2f7;">
+                    {{ competitors }}
+                </td>
+                <td
+                    style="padding: 15px; border: 1px solid #e2e8f0; vertical-align: top; background: #ebf8ff; font-weight: bold;">
+                    {{ uvp }}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h1>3. Analyse Narrative (IA)</h1>
+        <div
+            style="white-space: pre-wrap; background: #fffaf0; padding: 1.5rem; border: 1px solid #fbd38d; border-radius: 8px; font-size: 11pt;">
+            {{ ai_narrative }}
+        </div>
+    </div>
+
+    <div class="section">
+        <h1>4. Recommandations Techniques Détaillées</h1>
         {% for rec in recommendations %}
         <div class="recommendation">
             <h4>[{{ rec.id }}] {{ rec.recommendation }}</h4>
             <div class="justification">
-                <strong>Justification :</strong> {{ rec.justification }}
+                <strong>Impact Stratégique :</strong> {{ rec.justification }}
             </div>
         </div>
         {% endfor %}
     </div>
 
-    <div class="section">
-        <h1>3. Plan de Mise en Œuvre</h1>
-        <p>Nous recommandons une approche itérative pour le lancement de votre MVP. Les premières étapes devraient se concentrer sur la validation technique des recommandations ci-dessus, notamment l'intégration des systèmes de paiement (Kkapay/Fedapay) et la mise en place de l'infrastructure de base.</p>
+    <div class="section" style="page-break-before: always;">
+        <h1>5. Devis Cloud & Projections Financières (3 ans)</h1>
+        <p>Estimation de l'infrastructure optimale pour le lancement au <strong>{{ country }}</strong> dans le secteur
+            <strong>{{ sector }}</strong>.</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1cm;">
+            <thead>
+                <tr style="background: #2c5282; color: white;">
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Période</th>
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Coût Cloud Cumulé</th>
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Revenu Estimé</th>
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Profit Net</th>
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">ROI (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for year in finance.projections %}
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;">Année {{ year.year }}</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right;">{{ year.cumulative_cost }}
+                        CFA</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right;">{{ year.cumulative_revenue
+                        }} CFA</td>
+                    <td
+                        style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: {{ '#48bb78' if year.net_profit > 0 else '#f56565' }}">
+                        {{ year.net_profit }} CFA
+                    </td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;">{{ year.roi_percent }}%
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div
+            style="margin-top: 1cm; padding: 1.5rem; background: #bee3f8; border-radius: 8px; border: 1px solid #4299e1;">
+            <h3 style="margin-top: 0;">Verdict de l'Architecte</h3>
+            <strong>Mois d'équilibre (Break-even) :</strong> {{ finance.break_even_month if finance.break_even_month > 0
+            else '> 36' }} mois. <br>
+            <em>Note : Ce devis est optimisé pour un lancement progressif minimisant les coûts fixes.</em>
+        </div>
     </div>
 
     <div class="footer">
         Strategic Architect - Votre partenaire en stratégie digitale.
     </div>
 </body>
+
 </html>

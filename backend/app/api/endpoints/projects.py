@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api import deps
-from app.models.user import User
+# from app.models.user import User  # Supprimé pour éviter import circulaire
 from app.models.project import Project as ProjectModel
 from app.schemas.project import Project, ProjectCreate, ProjectUpdate
 
@@ -12,7 +12,7 @@ router = APIRouter()
 @router.get("/", response_model=List[Project])
 def read_projects(
     db: Session = Depends(deps.get_db),
-    current_user: User = Depends(deps.get_current_active_user),
+    current_user: Any = Depends(deps.get_current_active_user),
     skip: int = 0,
     limit: int = 100,
 ) -> Any:
@@ -27,7 +27,7 @@ def create_project(
     *,
     db: Session = Depends(deps.get_db),
     project_in: ProjectCreate,
-    current_user: User = Depends(deps.get_current_active_user),
+    current_user: Any = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Create new project.
@@ -46,7 +46,7 @@ def read_project(
     *,
     db: Session = Depends(deps.get_db),
     id: int,
-    current_user: User = Depends(deps.get_current_active_user),
+    current_user: Any = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Get project by ID.
@@ -62,7 +62,7 @@ def update_project(
     db: Session = Depends(deps.get_db),
     id: int,
     project_in: ProjectUpdate,
-    current_user: User = Depends(deps.get_current_active_user),
+    current_user: Any = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Update a project.
@@ -85,7 +85,7 @@ def delete_project(
     *,
     db: Session = Depends(deps.get_db),
     id: int,
-    current_user: User = Depends(deps.get_current_active_user),
+    current_user: Any = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Delete a project.

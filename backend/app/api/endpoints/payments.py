@@ -5,7 +5,7 @@ import json
 
 from app.api import deps
 from app.models.subscription import Subscription, PlanType
-from app.models.user import User
+# from app.models.user import User  # Supprimé pour éviter l'import circulaire
 
 router = APIRouter()
 

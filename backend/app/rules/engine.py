@@ -18,12 +18,17 @@ class RulesEngine:
             data = yaml.safe_load(f)
             return [Rule(**r) for r in data.get('rules', [])]
 
-    def evaluate(self, context: Dict[str, Any]) -> List[Rule]:
+    def evaluate(self, context: Dict[str, Any]) -> Dict[str, Any]:
         recommendations = []
+        applied_ids = []
         for rule in self.rules:
             if self._check_condition(rule.condition, context):
-                recommendations.append(rule)
-        return recommendations
+                recommendations.append(rule.dict())
+                applied_ids.append(rule.id)
+        return {
+            "recommendations": recommendations,
+            "applied_rule_ids": applied_ids
+        }
 
     def _check_condition(self, condition: str, context: Dict[str, Any]) -> bool:
         """

@@ -1,3 +1,4 @@
+from typing import Any, Dict, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
@@ -6,25 +7,58 @@ import tempfile
 
 from app.api import deps
 from app.services.report_service import ReportGenerator
+from app.services.validator_service import PreFlightValidator
 from app.api.endpoints.strategy import engine # Reuse engine and logic
 
 router = APIRouter()
 report_gen = ReportGenerator()
 
+from pydantic import BaseModel
+
+class ReportRequest(BaseModel):
+    project_name: Optional[str] = "Mon Projet"
+    user_name: Optional[str] = "Utilisateur"
+    answers: Dict[str, Any] = {}
+
 @router.post("/generate-report")
-def generate_report(
+async def generate_report(
     *,
-    project_name: str,
-    user_name: str,
-    answers: dict,
-    db: Session = Depends(deps.get_db)
+    request: ReportRequest,
+    db: Session = Depends(deps.get_db),
+    current_user: Any = Depends(deps.get_current_active_user)
 ):
     """
-    Generate and return a PDF report based on user answers.
+    Generate and return a professional PDF report (V2) with AI and Finance data.
+    Requires an active subscription.
     """
+    # 0. Check subscription
+    if not current_user.subscription or not current_user.subscription.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Abonnement actif requis pour générer le rapport. Veuillez choisir un plan."
+        )
+    
+    if current_user.subscription.reports_generated >= current_user.subscription.reports_limit:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Limite de rapports atteinte pour votre plan actuel."
+        )
+
+    project_name = request.project_name
+    user_name = request.user_name
+    answers = request.answers
+    
+    # 0.5 Pre-flight validation (F10)
+    warnings = PreFlightValidator.validate(answers)
+    if warnings:
+        # For now, we just log or could pass to report_gen
+        # In a real UI, this would be blocked or shown as warnings
+        print(f"PRE-FLIGHT WARNINGS for {project_name}: {warnings}")
+
     try:
         # 1. Get recommendations
-        recommendations = engine.evaluate(answers)
+        evaluation_result = engine.evaluate(answers)
+        recommendations = evaluation_result["recommendations"]
         
         if not recommendations:
             raise HTTPException(
@@ -33,21 +67,29 @@ def generate_report(
             )
         
         # 2. Generate PDF in a temporary file
-        fd, temp_path = tempfile.mkstemp(suffix=".pdf")
-        os.close(fd)
+        temp_dir = tempfile.gettempdir()
+        temp_path = os.path.join(temp_dir, f"Report_{project_name.replace(' ', '_')}.pdf")
         
-        report_gen.generate_pdf(
+        success_path = await report_gen.generate_full_report(
             project_name=project_name,
             user_name=user_name,
-            recommendations=[r.dict() for r in recommendations],
+            context=answers,
+            recommendations=recommendations,
             output_path=temp_path
         )
         
-        return FileResponse(
-            path=temp_path,
-            filename=f"Report_{project_name.replace(' ', '_')}.pdf",
-            media_type="application/pdf"
-        )
+        if success_path:
+            # Increment reports count
+            current_user.subscription.reports_generated += 1
+            db.commit()
+            
+            return FileResponse(
+                path=success_path,
+                filename=os.path.basename(success_path),
+                media_type="application/pdf" if success_path.endswith(".pdf") else "text/html"
+            )
+        else:
+            raise HTTPException(status_code=500, detail="Failed to generate report file.")
         
     except Exception as e:
         raise HTTPException(

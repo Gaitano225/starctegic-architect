@@ -1,13 +1,13 @@
 import json
 import os
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.api import deps
 from app.rules.engine import RulesEngine
 from app.models.project import Project
-from app.models.user import User
+# from app.models.user import User  # Supprimé pour éviter import circulaire
 from app.core.config import settings
 
 router = APIRouter()
@@ -54,35 +54,51 @@ def get_questions(
             detail=f"Error loading questionnaire: {e}",
         )
 
+from pydantic import BaseModel
+
+class EvaluationRequest(BaseModel):
+    project_name: Optional[str] = "Mon Projet"
+    answers: Dict[str, Any] = {}
+
 @router.post("/evaluate")
 def evaluate_project(
     *,
     db: Session = Depends(deps.get_db),
-    project_name: str,
-    answers: Dict[str, Any],
-    current_user: User = Depends(deps.get_current_user) # Optional auth depends
+    request: EvaluationRequest,
+    current_user: Any = Depends(deps.get_current_user_optional)
 ) -> Any:
+    from app.models.user import User  # Import local
     """
-    Evaluate project answers and return recommendations.
+    Evaluation of project answers and return recommendations.
     Saves the project to the DB if the user is authenticated.
     """
-    recommendations = engine.evaluate(answers)
-    recs_data = [r.dict() for r in recommendations]
+    project_name = request.project_name or "Nouveau Projet"
+    answers = request.answers
     
-    # Save project to DB
-    project = Project(
-        name=project_name,
-        answers=answers,
-        recommendations=recs_data,
-        user_id=current_user.id
-    )
-    db.add(project)
-    db.commit()
-    db.refresh(project)
+    # Run Inference Engine
+    evaluation_result = engine.evaluate(answers)
+    recommendations = evaluation_result["recommendations"]
+    applied_rule_ids = evaluation_result["applied_rule_ids"]
+    
+    project_id = None
+    if current_user:
+        # Save project to DB with audit trail
+        project = Project(
+            name=project_name,
+            answers=answers,
+            recommendations=recommendations,
+            applied_rule_ids=applied_rule_ids,
+            user_id=current_user.id
+        )
+        db.add(project)
+        db.commit()
+        db.refresh(project)
+        project_id = project.id
     
     return {
-        "id": project.id,
+        "id": project_id,
         "project_name": project_name,
         "recommendations": recommendations,
+        "applied_rule_ids": applied_rule_ids,
         "count": len(recommendations)
     }
