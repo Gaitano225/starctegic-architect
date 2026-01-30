@@ -1,57 +1,24 @@
 {
     "questions": [
         {
-            "id": "q0",
-            "text": "Commençons par le début : Quel est le nom de votre projet ?",
-            "type": "text",
-            "context_key": "project_name",
-            "required": true
-        },
-        {
             "id": "q1",
-            "text": "Dans quel pays se situe votre cible principale ?",
-            "type": "select",
-            "options": [
-                {
-                    "label": "Bénin",
-                    "value": "BJ"
-                },
-                {
-                    "label": "Sénégal",
-                    "value": "SN"
-                },
-                {
-                    "label": "Côte d'Ivoire",
-                    "value": "CI"
-                },
-                {
-                    "label": "Cameroun",
-                    "value": "CM"
-                },
-                {
-                    "label": "France",
-                    "value": "FR"
-                },
-                {
-                    "label": "Autre",
-                    "value": "OTHER"
-                }
-            ],
+            "text": "Dans quel pays cible souhaitez-vous déployer ce projet ?",
+            "type": "text",
             "context_key": "target_country",
             "required": true
         },
         {
             "id": "q2",
-            "text": "Quel est le secteur d'activité de votre projet ?",
+            "text": "Quel est le secteur ou domaine d'activité principal ?",
             "type": "select",
             "options": [
                 {
-                    "label": "E-commerce / Boutique en ligne",
-                    "value": "ecommerce"
-                },
-                {
                     "label": "Fintech / Services Financiers",
                     "value": "fintech"
+                },
+                {
+                    "label": "E-commerce / Retail",
+                    "value": "ecommerce"
                 },
                 {
                     "label": "Santé / HealthTech",
@@ -62,8 +29,12 @@
                     "value": "agritech"
                 },
                 {
-                    "label": "Services B2B / SaaS Pro",
-                    "value": "b2b"
+                    "label": "Services Publics / État",
+                    "value": "gov"
+                },
+                {
+                    "label": "Éducation / EdTech",
+                    "value": "edutech"
                 },
                 {
                     "label": "Logistique / Transport",
@@ -78,175 +49,239 @@
             "required": true
         },
         {
-            "id": "q_prob",
-            "text": "Décrivez le problème majeur que vous souhaitez résoudre.",
+            "id": "q3",
+            "text": "Quel est le type d'organisation porteuse ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Startup / Entrepreneur",
+                    "value": "startup"
+                },
+                {
+                    "label": "PME / Entreprise locale",
+                    "value": "pme"
+                },
+                {
+                    "label": "Grande Entreprise (Grand Compte)",
+                    "value": "corporate"
+                },
+                {
+                    "label": "Institution / Organisme Public",
+                    "value": "institution"
+                },
+                {
+                    "label": "ONG / Association",
+                    "value": "ong"
+                }
+            ],
+            "context_key": "org_type",
+            "required": true
+        },
+        {
+            "id": "q4",
+            "text": "Quel problème prioritaire cherchez-vous à résoudre aujourd’hui ?",
             "type": "text",
             "context_key": "problem_statement",
             "required": true
         },
         {
-            "id": "q_demand",
-            "text": "Pourquoi pensez-vous qu'il y a une forte demande maintenant ?",
+            "id": "q5",
+            "text": "Qui est directement impacté par ce problème (clients, État, etc.) ?",
             "type": "text",
-            "context_key": "market_demand",
-            "required": true
-        },
-        {
-            "id": "q_sol",
-            "text": "En quoi consiste votre solution concrètement ?",
-            "type": "text",
-            "context_key": "solution_description",
-            "required": true
-        },
-        {
-            "id": "q_comp_study",
-            "text": "Identifiez un concurrent majeur et ses lacunes.",
-            "type": "text",
-            "context_key": "competitor_analysis",
-            "required": true
-        },
-        {
-            "id": "q_uvp",
-            "text": "Quel est votre 'plus' par rapport aux autres ?",
-            "type": "text",
-            "context_key": "unique_value_prop",
-            "required": true
-        },
-        {
-            "id": "q_fintech_1",
-            "text": "Devez-vous gérer plusieurs devises ?",
-            "type": "radio",
-            "options": [
-                {
-                    "label": "Oui, multi-devises",
-                    "value": true
-                },
-                {
-                    "label": "Non, devise locale unique",
-                    "value": false
-                }
-            ],
-            "context_key": "multi_currency",
-            "condition": "sector == 'fintech'",
-            "required": true
-        },
-        {
-            "id": "q3",
-            "text": "Quelle est la taille de votre équipe technique ?",
-            "type": "radio",
-            "options": [
-                {
-                    "label": "Seul (fondateur)",
-                    "value": 1
-                },
-                {
-                    "label": "2 à 5 personnes",
-                    "value": 3
-                },
-                {
-                    "label": "Plus de 5 personnes",
-                    "value": 6
-                }
-            ],
-            "context_key": "team_size",
+            "context_key": "stakeholders",
             "required": true
         },
         {
             "id": "q6",
-            "text": "Budget estimé pour le lancement (FCFA) ?",
+            "text": "Quel est le niveau d’urgence ou de criticité du projet ?",
             "type": "select",
             "options": [
                 {
-                    "label": "Moins de 2M",
-                    "value": "low"
+                    "label": "Exploratoire / R&D",
+                    "value": "exploratory"
                 },
                 {
-                    "label": "2M à 10M",
-                    "value": "medium"
+                    "label": "Stratégique / Croissance",
+                    "value": "strategic"
                 },
                 {
-                    "label": "Plus de 10M",
-                    "value": "high"
+                    "label": "Critique / Survie",
+                    "value": "critical"
+                },
+                {
+                    "label": "Réglementaire / Obligatoire",
+                    "value": "regulatory"
                 }
             ],
-            "context_key": "budget",
+            "context_key": "criticality",
             "required": true
         },
         {
-            "id": "q13",
-            "text": "Besoin de paiements en ligne ?",
+            "id": "q7",
+            "text": "Comment votre organisation crée-t-elle de la valeur aujourd’hui ?",
+            "type": "text",
+            "context_key": "value_creation",
+            "required": true
+        },
+        {
+            "id": "q8",
+            "text": "Quel changement concret attendez-vous après ce projet ?",
+            "type": "text",
+            "context_key": "expected_change",
+            "required": true
+        },
+        {
+            "id": "q9",
+            "text": "Ce projet génère-t-il des revenus (Directs ou Indirects) ?",
             "type": "radio",
             "options": [
                 {
-                    "label": "Oui",
-                    "value": true
+                    "label": "Directement (Ventes, Abonnements)",
+                    "value": "direct"
                 },
                 {
-                    "label": "Non",
-                    "value": false
+                    "label": "Indirectement (Économies, Efficacité)",
+                    "value": "indirect"
+                },
+                {
+                    "label": "Non lucratif / Social",
+                    "value": "none"
                 }
             ],
-            "context_key": "needs_online_payment",
+            "context_key": "revenue_model",
             "required": true
         },
         {
-            "id": "q13_extra",
-            "text": "Méthode de paiement prioritaire ?",
-            "type": "select",
-            "options": [
-                {
-                    "label": "Mobile Money",
-                    "value": "momo"
-                },
-                {
-                    "label": "Cartes Bancaires",
-                    "value": "card"
-                },
-                {
-                    "label": "Mixte",
-                    "value": "hybrid"
-                }
-            ],
-            "context_key": "payment_method",
-            "condition": "needs_online_payment == True",
+            "id": "q10",
+            "text": "Qu’existe-t-il déjà (processus, outils, systèmes) ?",
+            "type": "text",
+            "context_key": "existing_assets",
             "required": true
         },
         {
-            "id": "q14",
-            "text": "Application mobile native indispensable ?",
-            "type": "radio",
-            "options": [
-                {
-                    "label": "Oui",
-                    "value": true
-                },
-                {
-                    "label": "Non, Web App (PWA) suffit",
-                    "value": false
-                }
-            ],
-            "context_key": "needs_mobile_app",
+            "id": "q11",
+            "text": "Quels sont les principaux points de blocage actuels ?",
+            "type": "text",
+            "context_key": "friction_points",
             "required": true
         },
         {
             "id": "q12",
-            "text": "Votre priorité absolue ?",
+            "text": "Quel est le niveau de maturité numérique actuel ?",
             "type": "select",
             "options": [
                 {
-                    "label": "Vitesse de lancement",
-                    "value": "speed"
+                    "label": "Basique (Papier, Excel)",
+                    "value": "basic"
                 },
                 {
-                    "label": "Coût minimal",
-                    "value": "cost"
+                    "label": "Intermédiaire (Cloud partiel)",
+                    "value": "intermediate"
                 },
                 {
-                    "label": "Qualité/Sécurité",
-                    "value": "quality"
+                    "label": "Avancé (Automatisation totale)",
+                    "value": "advanced"
                 }
             ],
-            "context_key": "priority",
+            "context_key": "digital_maturity",
+            "required": true
+        },
+        {
+            "id": "q13",
+            "text": "Quelles contraintes majeures (Budget, Loi, Délais) ?",
+            "type": "text",
+            "context_key": "constraints",
+            "required": true
+        },
+        {
+            "id": "q14",
+            "text": "Quelles seraient les conséquences d’un échec du projet ?",
+            "type": "text",
+            "context_key": "failure_consequences",
+            "required": true
+        },
+        {
+            "id": "q15",
+            "text": "Besoin de scalabilité (Pays, Volume) ?",
+            "type": "radio",
+            "options": [
+                {
+                    "label": "Oui, scalabilité massive",
+                    "value": "massive"
+                },
+                {
+                    "label": "Oui, croissance progressive",
+                    "value": "gradual"
+                },
+                {
+                    "label": "Non, usage local fixe",
+                    "value": "local"
+                }
+            ],
+            "context_key": "scalability_needs",
+            "required": true
+        },
+        {
+            "id": "q16",
+            "text": "Quelles données sont critiques pour ce projet ?",
+            "type": "text",
+            "context_key": "critical_data",
+            "required": true
+        },
+        {
+            "id": "q17",
+            "text": "Niveau d'intervention souhaité de l'IA ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Assistance à la décision",
+                    "value": "assisted"
+                },
+                {
+                    "label": "Automatisation de processus",
+                    "value": "automated"
+                },
+                {
+                    "label": "Analyse de données pure",
+                    "value": "analysis"
+                }
+            ],
+            "context_key": "ai_automation_level",
+            "required": true
+        },
+        {
+            "id": "q18",
+            "text": "Qui portera la responsabilité finale de l'exécution ?",
+            "type": "text",
+            "context_key": "final_accountability",
+            "required": true
+        },
+        {
+            "id": "q19",
+            "text": "Quelles compétences techniques avez-vous en interne ?",
+            "type": "text",
+            "context_key": "internal_skills",
+            "required": true
+        },
+        {
+            "id": "q20",
+            "text": "À quel horizon souhaitez-vous les premiers résultats ?",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Court terme (< 3 mois)",
+                    "value": "short"
+                },
+                {
+                    "label": "Moyen terme (6-12 mois)",
+                    "value": "medium"
+                },
+                {
+                    "label": "Long terme (> 18 mois)",
+                    "value": "long"
+                }
+            ],
+            "context_key": "roadmap_horizon",
             "required": true
         }
     ]

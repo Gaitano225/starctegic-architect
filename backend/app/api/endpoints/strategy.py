@@ -80,6 +80,24 @@ def evaluate_project(
     recommendations = evaluation_result["recommendations"]
     applied_rule_ids = evaluation_result["applied_rule_ids"]
     
+    # Trigger Notifications for Admin
+    from app.services.notification_service import NotificationService
+    user_email = current_user.email if current_user else "Anonyme"
+    NotificationService.notify_admin(
+        db, 
+        "Lancement Analyse BCT", 
+        f"Projet: {project_name} | Utilisateur: {user_email} | Pays: {answers.get('target_country')} | Questions répondues: {len(answers)}"
+    )
+    
+    # Notification pour l'utilisateur connecté
+    if current_user:
+        NotificationService.create_notification(
+            db,
+            user_id=current_user.id,
+            title="Analyse Stratégique Terminée",
+            message=f"Votre projet '{project_name}' a été analysé avec succès. {len(recommendations)} recommandations architecturales ont été générées. Vous pouvez maintenant générer votre Business Case Technique complet."
+        )
+
     project_id = None
     if current_user:
         # Save project to DB with audit trail

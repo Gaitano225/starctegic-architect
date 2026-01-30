@@ -7,6 +7,7 @@ from app.db.base_class import Base
 class PlanType(str, enum.Enum):
     FOUNDER = "fondateur"
     STRATEGIST = "stratege"
+    CONSULTANT = "consultant"
     VISIONARY = "visionnaire"
 
 class Subscription(Base):

@@ -7,201 +7,300 @@
     <style>
         @page {
             size: A4;
-            margin: 2cm;
+            margin: 1.5cm;
 
             @bottom-right {
-                content: "Page " counter(page) " sur " counter(pages);
-                font-size: 10pt;
-                color: #666;
+                content: "Strategic Architect | Cabinet de Conseil Architectural Digitalisé | Page " counter(page);
+                font-size: 8pt;
+                color: #2D3748;
             }
         }
 
         body {
-            font-family: 'Helvetica', 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: #1A202C;
             margin: 0;
-            padding: 0;
         }
 
         .cover {
-            text-align: center;
-            height: 100%;
+            height: 95vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            text-align: center;
+            border: 15px solid #2C5282;
+            padding: 2cm;
             page-break-after: always;
         }
 
         .cover h1 {
-            font-size: 32pt;
-            color: #1a365d;
-            margin-bottom: 0.5cm;
+            font-size: 42pt;
+            color: #2A4365;
+            margin: 0;
+            font-weight: 900;
+            letter-spacing: -1px;
         }
 
         .cover h2 {
-            font-size: 18pt;
-            color: #4a5568;
-            margin-bottom: 2cm;
+            font-size: 20pt;
+            color: #4A5568;
+            margin-top: 0.5cm;
+            font-weight: 400;
         }
 
-        .cover .meta {
-            font-size: 12pt;
+        .logo-placeholder {
+            font-weight: 900;
+            font-size: 24pt;
+            color: #2C5282;
+            margin-bottom: 3cm;
+        }
+
+        .meta-cover {
+            margin-top: 4cm;
+            border-top: 2px solid #E2E8F0;
+            padding-top: 1cm;
+            font-size: 11pt;
             color: #718096;
         }
 
-        h1,
-        h2,
-        h3 {
-            color: #2c5282;
+        h1 {
+            color: #2A4365;
+            border-bottom: 3px solid #2C5282;
+            padding-bottom: 10px;
+            margin-top: 1.5cm;
+            font-size: 22pt;
+            page-break-before: always;
         }
 
-        .section {
-            margin-bottom: 1.5cm;
-            page-break-inside: avoid;
+        h2 {
+            color: #2D3748;
+            margin-top: 1cm;
+            font-size: 16pt;
+            border-left: 5px solid #2C5282;
+            padding-left: 15px;
         }
 
-        .recommendation {
-            background: #f7fafc;
-            border-left: 4px solid #3182ce;
-            padding: 1rem;
-            margin-bottom: 1rem;
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .recommendation h4 {
-            margin-top: 0;
-            color: #2b6cb0;
+        .box {
+            background: #F7FAFC;
+            border: 1px solid #E2E8F0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1cm;
         }
 
-        .justification {
-            font-style: italic;
-            color: #4a5568;
+        .highlight {
+            background: #EBF8FF;
+            border-left: 5px solid #3182CE;
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1cm 0;
+        }
+
+        th {
+            background: #2D3748;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            border: 1px solid #E2E8F0;
+            padding: 12px;
             font-size: 10pt;
-            margin-top: 0.5rem;
+        }
+
+        .roadmap-item {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            border-left: 2px solid #CBD5E0;
+        }
+
+        .roadmap-year {
+            font-weight: bold;
+            color: #2C5282;
         }
 
         .footer {
-            margin-top: 3cm;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 1cm;
-            font-size: 9pt;
-            color: #a0aec0;
+            margin-top: 2cm;
             text-align: center;
+            font-size: 8pt;
+            color: #A0aec0;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 0.5cm;
         }
     </style>
 </head>
 
 <body>
     <div class="cover">
-        <div style="margin-top: 5cm;">
-            <h1>Business Case Technique</h1>
-            <h2>Projet : {{ project_name }}</h2>
-            <div class="meta">
-                Généré par Strategic Architect<br>
-                Date : {{ date }}<br>
-                Client : {{ user_name }}
-            </div>
+        <div class="logo-placeholder">STRATEGIC ARCHITECT</div>
+        <h1>BUSINESS CASE TECHNIQUE</h1>
+        <h2>Blueprint Stratégique & Architectural</h2>
+        <div class="meta-cover">
+            <strong>PROJET :</strong> {{ project_name }}<br>
+            <strong>CLIENT :</strong> {{ user_name }}<br>
+            <strong>PAYS :</strong> {{ answers.target_country }}<br>
+            <strong>DATE :</strong> {{ date }}<br>
+            <p style="margin-top: 1cm; font-style: italic;">Cabinet de Conseil Architectural Digitalisé - Confidentiel &
+                Propriétaire</p>
         </div>
     </div>
 
-    <div class="section">
-        <h1>1. Diagnostic Stratégique & Problématique</h1>
-        <div style="background: #fff5f5; border-left: 4px solid #e53e3e; padding: 1.5rem; margin-bottom: 1rem;">
-            <h3 style="margin-top: 0; color: #c53030;">Le Problème</h3>
-            <p>{{ problem }}</p>
+    <h1>1. Résumé Exécutif</h1>
+    <div class="highlight">{{ ai_narrative }}</div>
+
+    <h1>2. Contexte & Enjeux Stratégiques</h1>
+    <div class="grid-2">
+        <div class="box">
+            <h3>Problématique</h3>
+            <p>{{ answers.problem_statement }}</p>
         </div>
-        <div style="background: #f0fff4; border-left: 4px solid #38a169; padding: 1.5rem;">
-            <h3 style="margin-top: 0; color: #2f855a;">La Demande de Marché</h3>
-            <p>{{ demand }}</p>
-        </div>
-    </div>
-
-    <div class="section">
-        <h1>2. Vision de la Solution & Valeur Ajoutée</h1>
-        <p><strong>Description de la Solution :</strong> {{ solution }}</p>
-
-        <table style="width: 100%; border-collapse: collapse; margin-top: 1cm;">
-            <tr style="background: #2c5282; color: white;">
-                <th style="padding: 10px; border: 1px solid #e2e8f0; width: 50%;">Étude de l'existant (Concurrents)</th>
-                <th style="padding: 10px; border: 1px solid #e2e8f0; width: 50%;">Votre Différenciateur (UVP)</th>
-            </tr>
-            <tr>
-                <td style="padding: 15px; border: 1px solid #e2e8f0; vertical-align: top; background: #edf2f7;">
-                    {{ competitors }}
-                </td>
-                <td
-                    style="padding: 15px; border: 1px solid #e2e8f0; vertical-align: top; background: #ebf8ff; font-weight: bold;">
-                    {{ uvp }}
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="section">
-        <h1>3. Analyse Narrative (IA)</h1>
-        <div
-            style="white-space: pre-wrap; background: #fffaf0; padding: 1.5rem; border: 1px solid #fbd38d; border-radius: 8px; font-size: 11pt;">
-            {{ ai_narrative }}
+        <div class="box">
+            <h3>Impact Parties Prenantes</h3>
+            <p>{{ answers.stakeholders }}</p>
         </div>
     </div>
+    <div class="box">
+        <h3>Maturité Numérique & Organisationnelle</h3>
+        <p><strong>Niveau constaté :</strong> {{ answers.digital_maturity }}</p>
+        <p><strong>Compétences internes :</strong> {{ answers.internal_skills }}</p>
+    </div>
 
-    <div class="section">
-        <h1>4. Recommandations Techniques Détaillées</h1>
+    <h1>3. Analyse Sectorielle & Pays ({{ answers.target_country }})</h1>
+    <p>Analyse de la zone {{ answers.deployment_zone }} pour le secteur {{ answers.sector }}.</p>
+    <div class="box" style="background: #FFF5F5; border-color: #FEB2B2;">
+        <strong>Contraintes réglementaires & Risques :</strong> {{ answers.constraints }}
+    </div>
+
+    <h1>4. Architecture SI (Système d'Information)</h1>
+    <p>Structure globale visant à intégrer l'existant : {{ answers.existing_assets }}</p>
+    <table>
+        <tr>
+            <th>Composant</th>
+            <th>Stratégie d'Architecture</th>
+        </tr>
+        <tr>
+            <td>Gouvernance</td>
+            <td>Responsabilité finale par {{ answers.final_accountability }}</td>
+        </tr>
+        <tr>
+            <td>Intégration</td>
+            <td>Résolution des frictions : {{ answers.friction_points }}</td>
+        </tr>
+        <tr>
+            <td>Observabilité</td>
+            <td>Niveau de monitoring souhaité : {{ answers.monitoring_level }}</td>
+        </tr>
+    </table>
+
+    <h1>5. Architecture Génie Logiciel</h1>
+    <div class="box">
+        <h3>Moteur de Décision & Automatisation</h3>
+        <p>Alignement sur le niveau d'automatisation IA : <strong>{{ answers.ai_automation_level }}</strong></p>
+    </div>
+    <h2>Recommandations de Code & Frameworks</h2>
+    <ul>
         {% for rec in recommendations %}
-        <div class="recommendation">
-            <h4>[{{ rec.id }}] {{ rec.recommendation }}</h4>
-            <div class="justification">
-                <strong>Impact Stratégique :</strong> {{ rec.justification }}
-            </div>
-        </div>
+        <li><strong>{{ rec.recommendation }}</strong></li>
         {% endfor %}
+    </ul>
+
+    <h1>6. Architecture Applicative</h1>
+    <p>Conception de l'interface et des services applicatifs.</p>
+    <div class="highlight">Détails confidentiels inclus dans le pack complet.</div>
+
+    <h1>7. Architecture Data & Sécurité</h1>
+    <div class="box">
+        <h3>Données Critiques</h3>
+        <p>{{ answers.critical_data }}</p>
+    </div>
+    <div class="box" style="background: #ebf8ff;">
+        <h3>Sécurité & Conformité</h3>
+        <p>Sensibilité des données : {{ answers.sensitive_data }}</p>
     </div>
 
-    <div class="section" style="page-break-before: always;">
-        <h1>5. Devis Cloud & Projections Financières (3 ans)</h1>
-        <p>Estimation de l'infrastructure optimale pour le lancement au <strong>{{ country }}</strong> dans le secteur
-            <strong>{{ sector }}</strong>.</p>
-
-        <table style="width: 100%; border-collapse: collapse; margin-top: 1cm;">
-            <thead>
-                <tr style="background: #2c5282; color: white;">
-                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Période</th>
-                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Coût Cloud Cumulé</th>
-                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Revenu Estimé</th>
-                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Profit Net</th>
-                    <th style="padding: 10px; border: 1px solid #e2e8f0;">ROI (%)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for year in finance.projections %}
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;">Année {{ year.year }}</td>
-                    <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right;">{{ year.cumulative_cost }}
-                        CFA</td>
-                    <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right;">{{ year.cumulative_revenue
-                        }} CFA</td>
-                    <td
-                        style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: {{ '#48bb78' if year.net_profit > 0 else '#f56565' }}">
-                        {{ year.net_profit }} CFA
-                    </td>
-                    <td style="padding: 10px; border: 1px solid #e2e8f0; text-align: center;">{{ year.roi_percent }}%
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div
-            style="margin-top: 1cm; padding: 1.5rem; background: #bee3f8; border-radius: 8px; border: 1px solid #4299e1;">
-            <h3 style="margin-top: 0;">Verdict de l'Architecte</h3>
-            <strong>Mois d'équilibre (Break-even) :</strong> {{ finance.break_even_month if finance.break_even_month > 0
-            else '> 36' }} mois. <br>
-            <em>Note : Ce devis est optimisé pour un lancement progressif minimisant les coûts fixes.</em>
-        </div>
+    <h1>8. Roadmap Stratégique (Vue 10 Ans)</h1>
+    <div class="roadmap-item">
+        <div class="roadmap-year">Année 1 (Horizon {{ answers.roadmap_horizon }})</div>
+        <p>Lancement MVP, stabilisation des processus et validation des KPI : {{ answers.expected_change }}</p>
     </div>
+    <div class="roadmap-item">
+        <div class="roadmap-year">Années 2 - 5</div>
+        <p>Scalabilité {{ answers.scalability_needs }} et expansion régionale.</p>
+    </div>
+    <div class="roadmap-item">
+        <div class="roadmap-year">Années 6 - 10</div>
+        <p>Optimisation IA totale et leadership secteur {{ answers.sector }}.</p>
+    </div>
+
+    <h1>9. Analyse des Risques & Scénarios</h1>
+    <table>
+        <tr>
+            <th>Scénario</th>
+            <th>Probabilité</th>
+            <th>Impact</th>
+            <th>Conséquence si échec</th>
+        </tr>
+        <tr>
+            <td>Nominal (Succès)</td>
+            <td>Élevée</td>
+            <td>Majeur</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>Dégradation Marché</td>
+            <td>Moyenne</td>
+            <td>Modéré</td>
+            <td rowspan="2">{{ answers.failure_consequences }}</td>
+        </tr>
+        <tr>
+            <td>Échec Technique</td>
+            <td>Faible</td>
+            <td>Critique</td>
+        </tr>
+    </table>
+
+    <h1>10. Devis & Projections ROI (3 Niveaux)</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Année</th>
+                <th>Coût Cloud CFA</th>
+                <th>Revenu Estimé CFA</th>
+                <th>ROI</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for year in finance.projections %}
+            <tr>
+                <td>An {{ year.year }}</td>
+                <td>{{ year.cumulative_cost }}</td>
+                <td>{{ year.cumulative_revenue }}</td>
+                <td>{{ year.roi_percent }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><strong>Mois d'équilibre (Break-even) :</strong> {{ finance.break_even_month }} mois.</p>
+
+    <h1>11. Conclusion Stratégique</h1>
+    <p>Projet validé par le cerveau architectural de Strategic Architect. Prêt pour présentation bancaire et levée de
+        fonds.</p>
 
     <div class="footer">
-        Strategic Architect - Votre partenaire en stratégie digitale.
+        Strategic Architect - BP 451 Cotonou / Dakar / Abidjan
     </div>
 </body>
 

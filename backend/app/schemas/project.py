@@ -31,6 +31,15 @@ class ProjectInDBBase(ProjectBase):
 class Project(ProjectInDBBase):
     pass
 
+# Properties for Quote Request
+class ProjectQuoteRequest(BaseModel):
+    project_name: str
+    nature: str
+    horizon: str
+    org_type: str
+    budget_range: str
+    description: str
+
 # Properties stored in DB
 class ProjectInDB(ProjectInDBBase):
     pass

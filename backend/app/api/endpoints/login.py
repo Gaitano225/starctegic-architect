@@ -75,5 +75,13 @@ def create_user_signup(
         title="Nouvelle Inscription", 
         message=f"L'utilisateur {user_obj.email} vient de créer un compte."
     )
+    
+    # Notification pour l'utilisateur
+    NotificationService.create_notification(
+        db,
+        user_id=user_obj.id,
+        title="Bienvenue sur Strategic Architect",
+        message="Votre compte a été créé avec succès. Vous pouvez maintenant lancer votre première analyse stratégique."
+    )
 
     return user_obj

@@ -24,9 +24,11 @@ class ReportGenerator:
                                    user_name: str, 
                                    context: Dict[str, Any],
                                    recommendations: List[Dict[str, Any]],
-                                   output_path: str):
+                                   output_path: str,
+                                   user_plan: str = "FOUNDER"):
         """
         Produce a complete V2 Business Case including AI narrative and Finance projections.
+        Content is gated based on user subscription plan.
         """
         # 1. Financial simulation
         budget = context.get("budget_amount", 1000000)
@@ -38,8 +40,12 @@ class ReportGenerator:
             expected_monthly_revenue=budget * 0.1 # Very rough estimate
         )
 
-        # 2. AI Enhancement
-        ai_narrative = await self.ai.enhance_report({"name": project_name, "answers": context}, recommendations)
+        # 2. AI Enhancement with Plan-based Gating
+        ai_narrative = await self.ai.enhance_report(
+            {"name": project_name, "answers": context}, 
+            recommendations,
+            user_plan
+        )
 
         # 3. Prepare template data
         report_data = {
@@ -50,7 +56,9 @@ class ReportGenerator:
             "finance": finance_data,
             "recommendations": recommendations,
             "context": context,
-            # Direct access for convenience
+            "answers": context, # For template convenience
+            "user_plan": user_plan,  # For template conditional rendering
+            # Direct access for backwards compatibility
             "problem": context.get("problem_statement", "Non spécifié"),
             "solution": context.get("solution_description", "Non spécifié"),
             "demand": context.get("market_demand", "Non spécifiée"),

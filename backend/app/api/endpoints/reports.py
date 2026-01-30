@@ -66,6 +66,9 @@ async def generate_report(
                 detail="No recommendations generated for the provided answers."
             )
         
+        # 1.5 Get user plan for content gating
+        user_plan = current_user.subscription.plan.value if current_user.subscription else "FOUNDER"
+        
         # 2. Generate PDF in a temporary file
         temp_dir = tempfile.gettempdir()
         temp_path = os.path.join(temp_dir, f"Report_{project_name.replace(' ', '_')}.pdf")
@@ -75,13 +78,30 @@ async def generate_report(
             user_name=user_name,
             context=answers,
             recommendations=recommendations,
-            output_path=temp_path
+            output_path=temp_path,
+            user_plan=user_plan
         )
         
         if success_path:
             # Increment reports count
             current_user.subscription.reports_generated += 1
             db.commit()
+
+            # Trigger Notification for Admin
+            from app.services.notification_service import NotificationService
+            NotificationService.notify_admin(
+                db, 
+                "Téléchargement BCT", 
+                f"L'utilisateur {current_user.email} a généré un BCT pour le projet: {project_name}."
+            )
+            
+            # Notification pour l'utilisateur
+            NotificationService.create_notification(
+                db,
+                user_id=current_user.id,
+                title="Business Case Technique Généré",
+                message=f"Votre BCT pour le projet '{project_name}' est prêt ! Il a été généré avec succès et est maintenant disponible au téléchargement. Rapports restants ce mois : {current_user.subscription.reports_limit - current_user.subscription.reports_generated if current_user.subscription.reports_limit < 9999 else 'illimité'}."
+            )
             
             return FileResponse(
                 path=success_path,

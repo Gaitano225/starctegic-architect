@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.api import deps
 # from app.models.user import User  # Supprimé pour éviter import circulaire
 from app.models.project import Project as ProjectModel
-from app.schemas.project import Project, ProjectCreate, ProjectUpdate
+from app.schemas.project import Project, ProjectCreate, ProjectUpdate, ProjectQuoteRequest
 
 router = APIRouter()
 
@@ -96,3 +96,44 @@ def delete_project(
     db.delete(project)
     db.commit()
     return project
+@router.post("/request-quote")
+def request_quote(
+    *,
+    db: Session = Depends(deps.get_db),
+    quote_in: ProjectQuoteRequest,
+    current_user: Any = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Request a consultation quote for a project.
+    """
+    from app.services.notification_service import NotificationService
+    
+    # Notify Admin (tomgaitano78@mail.com)
+    admin_msg = (
+        f"NOUVELLE DEMANDE DE DEVIS\n"
+        f"------------------------\n"
+        f"Client: {current_user.email}\n"
+        f"Projet: {quote_in.project_name}\n"
+        f"Nature: {quote_in.nature}\n"
+        f"Horizon: {quote_in.horizon}\n"
+        f"Organisation: {quote_in.org_type}\n"
+        f"Budget: {quote_in.budget_range}\n"
+        f"Message: {quote_in.description}\n\n"
+        f"📧 Répondre à: {current_user.email}\n"
+        f"📧 Envoyer à: tomgaitano78@mail.com"
+    )
+    NotificationService.notify_admin(
+        db, 
+        "Audit Devis Reçu", 
+        admin_msg
+    )
+    
+    # Notify User
+    NotificationService.create_notification(
+        db,
+        current_user.id,
+        "Demande de Devis Reçue",
+        f"Votre demande de devis pour '{quote_in.project_name}' a été transmise à nos experts. Nous vous répondrons sous 48h à l'adresse {current_user.email}."
+    )
+    
+    return {"message": "Quote request received successfully"}

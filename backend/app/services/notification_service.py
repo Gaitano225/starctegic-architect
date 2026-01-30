@@ -25,7 +25,28 @@ class NotificationService:
 
     @staticmethod
     def notify_admin(db: Session, title: str, message: str):
-        return NotificationService.create_notification(db, None, title, message)
+        """
+        Envoie une notification admin ET un email à tomgaitano78@mail.com
+        """
+        notification = NotificationService.create_notification(db, None, title, message)
+        
+        # TODO: Intégrer l'envoi d'email réel via SMTP
+        # Pour l'instant, on log l'email qui devrait être envoyé
+        print(f"\n{'='*60}")
+        print(f"📧 EMAIL À ENVOYER À: tomgaitano78@mail.com")
+        print(f"{'='*60}")
+        print(f"Sujet: {title}")
+        print(f"Message:\n{message}")
+        print(f"{'='*60}\n")
+        
+        # Configuration SMTP à ajouter dans .env:
+        # SMTP_HOST=smtp.gmail.com
+        # SMTP_PORT=587
+        # SMTP_USER=votre_email@gmail.com
+        # SMTP_PASSWORD=votre_mot_de_passe_app
+        # ADMIN_EMAIL=tomgaitano78@mail.com
+        
+        return notification
 
     @staticmethod
     def get_user_notifications(db: Session, user_id: int) -> List[Notification]:

@@ -21,6 +21,28 @@ def read_my_subscription(
     Get current user's subscription status.
     """
     subscription = db.query(SubscriptionModel).filter(SubscriptionModel.user_id == current_user.id).first()
+    
+    # POUVOIRS TOTAUX : L'admin a toujours accès illimité (Visionnaire)
+    if current_user.is_superuser:
+        if not subscription:
+            subscription = SubscriptionModel(
+                user_id=current_user.id,
+                plan=PlanType.VISIONARY,
+                reports_limit=9999,
+                is_active=True
+            )
+            db.add(subscription)
+            db.commit()
+            db.refresh(subscription)
+        else:
+            # S'assurer que les privilèges sont à jour
+            if subscription.plan != PlanType.VISIONARY:
+                subscription.plan = PlanType.VISIONARY
+                subscription.reports_limit = 9999
+                db.add(subscription)
+                db.commit()
+        return subscription
+
     if not subscription:
         # Create a default founder subscription if none exists
         subscription = SubscriptionModel(
@@ -48,8 +70,12 @@ def upgrade_plan(
         db.add(subscription)
     
     subscription.plan = plan
-    if plan == PlanType.STRATEGIST:
-        subscription.reports_limit = 10
+    if plan == PlanType.FOUNDER:
+        subscription.reports_limit = 3
+    elif plan == PlanType.STRATEGIST:
+        subscription.reports_limit = 5
+    elif plan == PlanType.CONSULTANT:
+        subscription.reports_limit = 7
     elif plan == PlanType.VISIONARY:
         subscription.reports_limit = 9999 # Unlimited
     
@@ -70,8 +96,8 @@ def upgrade_plan(
     NotificationService.create_notification(
         db, 
         current_user.id, 
-        "Abonnement Activé", 
-        f"Votre pack {plan} est actif jusqu'au {expiry_date.strftime('%d/%m/%Y')}. Merci de votre confiance !"
+        "Abonnement Activé avec Succès", 
+        f"Félicitations ! Votre pack {plan} est maintenant actif jusqu'au {expiry_date.strftime('%d/%m/%Y')}. Vous avez accès à {subscription.reports_limit if subscription.reports_limit < 9999 else 'un nombre illimité de'} Business Case Techniques par mois. Merci de votre confiance !"
     )
 
     return {"message": f"Successfully upgraded to {plan}"}
